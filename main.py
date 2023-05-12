@@ -26,8 +26,6 @@ with open('bikes_already_rented.csv', mode='r') as infile:
         k, v = row
         items_rented[k] = int(v)
 
-
-
 class MyBikeShop:
     def __init__(self, items_in_stock):
         self.items_in_stock = items_in_stock
