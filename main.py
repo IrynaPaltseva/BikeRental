@@ -12,7 +12,6 @@ items_in_stock = {
     'weekly': 20
 }
 
-
 try:
     with open('bikes_in_stock.csv', mode='r') as infile:
         reader = csv.reader(infile)
@@ -37,19 +36,6 @@ except FileNotFoundError:
     with open('bikes_already_rented.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(items_rented.items())
-
-# with open('bikes_in_stock.csv', mode='r') as infile:
-#     reader = csv.reader(infile)
-#     for row in reader:
-#         k, v = row
-#         items_in_stock[k] = int(v)
-
-
-# with open('bikes_already_rented.csv', mode='r') as infile:
-#     reader = csv.reader(infile)
-#     for row in reader:
-#         k, v = row
-#         items_rented[k] = int(v)
 
 class MyBikeShop:
     def __init__(self, items_in_stock):
