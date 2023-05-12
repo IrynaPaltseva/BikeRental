@@ -13,18 +13,43 @@ items_in_stock = {
 }
 
 
-with open('bikes_in_stock.csv', mode='r') as infile:
-    reader = csv.reader(infile)
-    for row in reader:
-        k, v = row
-        items_in_stock[k] = int(v)
+try:
+    with open('bikes_in_stock.csv', mode='r') as infile:
+        reader = csv.reader(infile)
+        for row in reader:
+            k, v = row
+            items_in_stock[k] = int(v)
+
+except FileNotFoundError:
+    print("Inventory file not found. Creating new file with default inventory.")
+    with open('bikes_in_stock.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerows(items_in_stock.items())
+
+try:
+    with open('bikes_already_rented.csv', mode='r') as infile:
+        reader = csv.reader(infile)
+        for row in reader:
+            k, v = row
+            items_rented[k] = int(v)
+except FileNotFoundError:
+    print("Inventory file not found. Creating new file with default inventory.")
+    with open('bikes_already_rented.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerows(items_rented.items())
+
+# with open('bikes_in_stock.csv', mode='r') as infile:
+#     reader = csv.reader(infile)
+#     for row in reader:
+#         k, v = row
+#         items_in_stock[k] = int(v)
 
 
-with open('bikes_already_rented.csv', mode='r') as infile:
-    reader = csv.reader(infile)
-    for row in reader:
-        k, v = row
-        items_rented[k] = int(v)
+# with open('bikes_already_rented.csv', mode='r') as infile:
+#     reader = csv.reader(infile)
+#     for row in reader:
+#         k, v = row
+#         items_rented[k] = int(v)
 
 class MyBikeShop:
     def __init__(self, items_in_stock):
