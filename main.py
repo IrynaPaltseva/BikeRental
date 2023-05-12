@@ -1,14 +1,25 @@
-items_in_stock = {
-    'hourly': 13,
-    'daily': 9,
-    'weekly': 20
-    }
+import csv
 
 items_rented = {
     'hourly': 0,
     'daily': 0,
     'weekly': 0
-    }
+}
+
+items_in_stock = {
+    'hourly': 13,
+    'daily': 9,
+    'weekly': 20
+}
+
+with open('bikes.csv', mode='r') as infile:
+    reader = csv.reader(infile)
+    for row in reader:
+        k, v = row
+        items_in_stock[k] = int(v)
+
+print(items_in_stock)
+
 
 class MyBikeShop:
     def __init__(self, items_in_stock):
@@ -23,55 +34,6 @@ class MyBikeShop:
             print(key.title(), value)
         print("Bike rent costs $5 per hour, $20 per day, $60 per week")
 
-    def rent_bike_hourly(self, rent_number):
-        if rent_number <= 0:
-            print('Sorry, wrong number. Choose more than 0 bikes.')
-            return
-
-        if rent_number > self.items_in_stock['hourly']:
-            print("We don't have enough bikes in stock for hourly rental.")
-            return
-        rent_time = int(input("For how many hours do you want to rent your bike(s)?"))
-        print("Congratulations, you rented", rent_number, 'bikes on an hourly basis.')
-        self.items_in_stock['hourly'] -= rent_number
-        self.total_cost = return_number * 5 * rent_time
-
-        self.items_rented['hourly'] += rent_number
-
-
-    def rent_bike_daily(self, rent_number):
-        if rent_number <= 0:
-            print('Sorry, wrong number. Choose more than 0 bikes.')
-            return
-
-        if rent_number > self.items_in_stock['daily']:
-            print("We don't have enough bikes in stock for daily rental.")
-            return
-        rent_time = int(input("For how many days do you want to rent your bike(s)?"))
-        print("Congratulations, you rented", rent_number, 'bikes on a daily basis.')
-        self.items_in_stock['daily'] -= rent_number
-        self.total_cost = return_number * 20 * rent_time
-
-        self.items_rented['daily'] += rent_number
-
-
-
-    def rent_bike_weekly(self, rent_number):
-        if rent_number <= 0:
-            print('Sorry, wrong number. Choose more than 0 bikes.')
-            return
-
-        if rent_number > self.items_in_stock['weekly']:
-            print("We don't have enough bikes in stock for weekly rental.")
-            return
-        rent_time = int(input("For how many weeks do you want to rent your bike(s)?"))
-        print("Congratulations, you rented", rent_number, 'bikes on a weekly basis.')
-        self.items_in_stock['weekly'] -= rent_number
-        self.total_cost = return_number * 60 * rent_time
-
-
-        self.items_rented['weekly'] += rent_number
-
     def return_bike(self, rent_type, return_number):
         if rent_type not in self.items_in_stock:
             print("Invalid rent type.")
@@ -84,14 +46,59 @@ class MyBikeShop:
         self.items_in_stock[rent_type] += return_number
         self.items_rented[rent_type] -= return_number
         print("You have returned", return_number, 'bikes on', rent_type, "basis")
-        if 3 <= rent_number <= 5:
+        if 3 <= return_number <= 5:
             self.total_cost *= 0.7
-            print("It's your lucky day! You can have 30% discount ")
+            print("It's your lucky day! You can have a 30% discount.")
         print("Your bill: $", int(self.total_cost))
         self.revenue += self.total_cost
 
-    def display_revenue(self):
-        print("Total revenue:", int(self.revenue))
+    def rent_bike_hourly(self, rent_number):
+        if rent_number <= 0:
+            print('Sorry, wrong number. Choose more than 0 bikes.')
+            return
+
+        if rent_number > self.items_in_stock['hourly']:
+            print("We don't have enough bikes in stock for hourly rental.")
+            return
+        rent_time = int(input("For how many hours do you want to rent your bike(s)?"))
+        print("Congratulations, you rented", rent_number, 'bikes on an hourly basis.')
+        self.items_in_stock['hourly'] -= rent_number
+        self.total_cost = rent_number * 5 * rent_time
+        self.items_rented['hourly'] += rent_number
+
+    def rent_bike_daily(self, rent_number):
+        if rent_number <= 0:
+            print('Sorry, wrong number. Choose more than 0 bikes.')
+            return
+
+        if rent_number > int(self.items_in_stock['daily']):
+            print("We don't have enough bikes in stock for daily rental.")
+            return
+        rent_time = int(input("For how many days do you want to rent your bike(s)?"))
+        print("Congratulations, you rented", rent_number, 'bikes on a daily basis.')
+        self.items_in_stock['daily'] -= rent_number
+        self.total_cost = rent_number * 20 * rent_time
+        self.items_rented['daily'] += rent_number
+
+
+def rent_bike_weekly(self, rent_number):
+    if rent_number <= 0:
+        print('Sorry, wrong number. Choose more than 0 bikes.')
+        return
+
+    if rent_number > self.items_in_stock['weekly']:
+        print("We don't have enough bikes in stock for weekly rental.")
+        return
+    rent_time = int(input("For how many weeks do you want to rent your bike(s)?"))
+    print("Congratulations, you rented", rent_number, 'bikes on a weekly basis.')
+    self.items_in_stock['weekly'] -= rent_number
+    self.total_cost = rent_number * 60 * rent_time
+    self.items_rented['weekly'] += rent_number
+
+
+def display_revenue(self):
+    print("Total revenue:", int(self.revenue))
+
 
 # Creating an instance of the BikeShop class
 bike_shop = MyBikeShop(items_in_stock)
@@ -138,6 +145,10 @@ while True:
     elif user_choice == 4:
         bike_shop.display_revenue()
     elif user_choice == 5:
+        with open('bikes.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(items_in_stock.items())
         break
     else:
         print("Invalid input. Please enter a number from 1 to 5.")
+
