@@ -19,24 +19,12 @@ with open('bikes_in_stock.csv', mode='r') as infile:
         k, v = row
         items_in_stock[k] = int(v)
 
-# except FileNotFoundError:
-#     print("Inventory file not found. Creating new file with default inventory.")
-#     with open('bikes_in_stock.csv', 'w', newline='') as csvfile:
-#         writer = csv.writer(csvfile)
-#         writer.writerows(items_in_stock.items())
-
-
 
 with open('bikes_already_rented.csv', mode='r') as infile:
     reader = csv.reader(infile)
     for row in reader:
         k, v = row
         items_rented[k] = int(v)
-# except FileNotFoundError:
-#     print("Inventory file not found. Creating new file with default inventory.")
-#     with open('bikes_in_stock.csv', 'w', newline='') as csvfile:
-#         writer = csv.writer(csvfile)
-#         writer.writerows(items_rented.items())
 
 
 
@@ -80,10 +68,10 @@ class MyBikeShop:
             print("We don't have enough bikes in stock for hourly rental.")
             return
         rent_time = int(input("For how many hours do you want to rent your bike(s)?"))
-        print("Congratulations, you rented", rent_number, 'bikes on an hourly basis.')
+        print("Congratulations, you rented", rent_number, 'bikes for', rent_time, 'hours.')
         self.items_in_stock['hourly'] -= rent_number
-        self.total_cost = rent_number * 5 * rent_time
         self.items_rented['hourly'] += rent_number
+        self.total_cost = rent_number * 5 * rent_time
 
     def rent_bike_daily(self, rent_number):
         if rent_number <= 0:
@@ -94,10 +82,10 @@ class MyBikeShop:
             print("We don't have enough bikes in stock for daily rental.")
             return
         rent_time = int(input("For how many days do you want to rent your bike(s)?"))
-        print("Congratulations, you rented", rent_number, 'bikes on a daily basis.')
+        print("Congratulations, you rented", rent_number, 'bikes for', rent_time, 'days.')
         self.items_in_stock['daily'] -= rent_number
-        self.total_cost = rent_number * 20 * rent_time
         self.items_rented['daily'] += rent_number
+        self.total_cost = rent_number * 20 * rent_time
 
 
     def rent_bike_weekly(self, rent_number):
@@ -109,10 +97,10 @@ class MyBikeShop:
             print("We don't have enough bikes in stock for weekly rental.")
             return
         rent_time = int(input("For how many weeks do you want to rent your bike(s)?"))
-        print("Congratulations, you rented", rent_number, 'bikes on a weekly basis.')
+        print("Congratulations, you rented", rent_number, 'bikes for', rent_time, 'weeks.')
         self.items_in_stock['weekly'] -= rent_number
-        self.total_cost = rent_number * 60 * rent_time
         self.items_rented['weekly'] += rent_number
+        self.total_cost = rent_number * 60 * rent_time
 
 
     def display_revenue(self):
