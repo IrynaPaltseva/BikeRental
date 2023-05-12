@@ -12,13 +12,32 @@ items_in_stock = {
     'weekly': 20
 }
 
-with open('bikes.csv', mode='r') as infile:
+
+with open('bikes_in_stock.csv', mode='r') as infile:
     reader = csv.reader(infile)
     for row in reader:
         k, v = row
         items_in_stock[k] = int(v)
 
-print(items_in_stock)
+# except FileNotFoundError:
+#     print("Inventory file not found. Creating new file with default inventory.")
+#     with open('bikes_in_stock.csv', 'w', newline='') as csvfile:
+#         writer = csv.writer(csvfile)
+#         writer.writerows(items_in_stock.items())
+
+
+
+with open('bikes_already_rented.csv', mode='r') as infile:
+    reader = csv.reader(infile)
+    for row in reader:
+        k, v = row
+        items_rented[k] = int(v)
+# except FileNotFoundError:
+#     print("Inventory file not found. Creating new file with default inventory.")
+#     with open('bikes_in_stock.csv', 'w', newline='') as csvfile:
+#         writer = csv.writer(csvfile)
+#         writer.writerows(items_rented.items())
+
 
 
 class MyBikeShop:
@@ -81,23 +100,23 @@ class MyBikeShop:
         self.items_rented['daily'] += rent_number
 
 
-def rent_bike_weekly(self, rent_number):
-    if rent_number <= 0:
-        print('Sorry, wrong number. Choose more than 0 bikes.')
-        return
+    def rent_bike_weekly(self, rent_number):
+        if rent_number <= 0:
+            print('Sorry, wrong number. Choose more than 0 bikes.')
+            return
 
-    if rent_number > self.items_in_stock['weekly']:
-        print("We don't have enough bikes in stock for weekly rental.")
-        return
-    rent_time = int(input("For how many weeks do you want to rent your bike(s)?"))
-    print("Congratulations, you rented", rent_number, 'bikes on a weekly basis.')
-    self.items_in_stock['weekly'] -= rent_number
-    self.total_cost = rent_number * 60 * rent_time
-    self.items_rented['weekly'] += rent_number
+        if rent_number > self.items_in_stock['weekly']:
+            print("We don't have enough bikes in stock for weekly rental.")
+            return
+        rent_time = int(input("For how many weeks do you want to rent your bike(s)?"))
+        print("Congratulations, you rented", rent_number, 'bikes on a weekly basis.')
+        self.items_in_stock['weekly'] -= rent_number
+        self.total_cost = rent_number * 60 * rent_time
+        self.items_rented['weekly'] += rent_number
 
 
-def display_revenue(self):
-    print("Total revenue:", int(self.revenue))
+    def display_revenue(self):
+        print("Total revenue:", int(self.revenue))
 
 
 # Creating an instance of the BikeShop class
@@ -145,9 +164,13 @@ while True:
     elif user_choice == 4:
         bike_shop.display_revenue()
     elif user_choice == 5:
-        with open('bikes.csv', 'w', newline='') as csvfile:
+        with open('bikes_in_stock.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerows(items_in_stock.items())
+
+        with open('bikes_already_rented.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(items_rented.items())
         break
     else:
         print("Invalid input. Please enter a number from 1 to 5.")
