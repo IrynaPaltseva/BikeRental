@@ -1,4 +1,3 @@
-
 items_in_stock = {
     'hourly': 13,
     'daily': 9,
@@ -35,7 +34,7 @@ class MyBikeShop:
         rent_time = int(input("For how many hours do you want to rent your bike(s)?"))
         print("Congratulations, you rented", rent_number, 'bikes on an hourly basis.')
         self.items_in_stock['hourly'] -= rent_number
-        self.total_cost = rent_number * 5 * rent_time
+        self.total_cost = return_number * 5 * rent_time
 
         self.items_rented['hourly'] += rent_number
 
@@ -51,7 +50,7 @@ class MyBikeShop:
         rent_time = int(input("For how many days do you want to rent your bike(s)?"))
         print("Congratulations, you rented", rent_number, 'bikes on a daily basis.')
         self.items_in_stock['daily'] -= rent_number
-        self.total_cost = rent_number * 20 * rent_time
+        self.total_cost = return_number * 20 * rent_time
 
         self.items_rented['daily'] += rent_number
 
@@ -68,7 +67,7 @@ class MyBikeShop:
         rent_time = int(input("For how many weeks do you want to rent your bike(s)?"))
         print("Congratulations, you rented", rent_number, 'bikes on a weekly basis.')
         self.items_in_stock['weekly'] -= rent_number
-        self.total_cost = rent_number * 60 * rent_time
+        self.total_cost = return_number * 60 * rent_time
 
 
         self.items_rented['weekly'] += rent_number
@@ -83,6 +82,7 @@ class MyBikeShop:
             return
 
         self.items_in_stock[rent_type] += return_number
+        self.items_rented[rent_type] -= return_number
         print("You have returned", return_number, 'bikes on', rent_type, "basis")
         if 3 <= rent_number <= 5:
             self.total_cost *= 0.7
@@ -93,7 +93,7 @@ class MyBikeShop:
     def display_revenue(self):
         print("Total revenue:", int(self.revenue))
 
-
+# Creating an instance of the BikeShop class
 bike_shop = MyBikeShop(items_in_stock)
 
 while True:
@@ -127,11 +127,11 @@ while True:
         return_type = input("Enter return type (hourly/daily/weekly): ")
         return_number = int(input("How many bikes do you want to return? "))
 
-        if return_type == "hourly" and return_number > (items_in_stock['hourly']+rent_number-items_rented['hourly']):
+        if return_type == "hourly" and return_number > items_rented['hourly']:
             print("You can't return more bikes than rented hourly.")
-        elif return_type == "daily" and return_number > (items_in_stock['daily']+rent_number-items_rented['daily']):
+        elif return_type == "daily" and return_number > items_rented['daily']:
             print("You can't return more bikes than rented daily.")
-        elif return_type == "weekly" and return_number > (items_in_stock['weekly']+rent_number-items_rented['weekly']):
+        elif return_type == "weekly" and return_number > items_rented['weekly']:
             print("You can't return more bikes than rented weekly.")
         else:
             bike_shop.return_bike(return_type, return_number)
